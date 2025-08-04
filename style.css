@@ -1,0 +1,41 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f0f8ff;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.bucket {
+  width: 150px;
+  height: 150px;
+  border: 2px dashed #333;
+  margin: 10px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.images {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+#results {
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #333;
+}

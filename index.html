@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>T-shirt Classifier Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🧠 Train Your AI: T-shirt Classifier</h1>
+  <p>Drag and drop T-shirt images into the correct category to train your AI!</p>
+
+  <div class="container">
+    <div class="bucket" id="redBucket">Red T-shirts</div>
+    <div class="bucket" id="blueBucket">Blue T-shirts</div>
+    <div class="bucket" id="otherBucket">Other T-shirts</div>
+  </div>
+
+  <h2>🧪 Training Images</h2>
+  <div class="images" id="trainingImages">
+    <img src="images/training/red1.png" draggable="true" class="draggable">
+    <img src="images/training/red2.png" draggable="true" class="draggable">
+    <img src="images/training/blue1.png" draggable="true" class="draggable">
+    <img src="images/training/blue2.png" draggable="true" class="draggable">
+    <img src="images/training/other1.png" draggable="true" class="draggable">
+    <img src="images/training/other2.png" draggable="true" class="draggable">
+  </div>
+
+  <button onclick="trainModel()">✅ Train Model</button>
+
+  <h2>🔍 Test Your Model</h2>
+  <div class="images" id="testImages">
+    <img src="images/testing/test_red.png" onclick="classify(this)">
+    <img src="images/testing/test_blue.png" onclick="classify(this)">
+    <img src="images/testing/test_other.png" onclick="classify(this)">
+  </div>
+
+  <div id="results"></div>
+  <button onclick="resetGame()">🔄 Reset</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
