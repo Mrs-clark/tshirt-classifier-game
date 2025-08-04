@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>T-shirt Classifier Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🧠 Train Your AI: T-shirt Classifier</h1>
+  <p>Drag and drop T-shirt images into the correct category to train your AI!</p>
+
+  <div class="container">
+    <div class="bucket" id="redBucket">Red T-shirts</div>
+    <div class="bucket" id="blueBucket">Blue T-shirts</div>
+    <div class="bucket" id="otherBucket">Other T-shirts</div>
+  </div>
+
+  <h2>🧪 Training Images</h2>
+  <div class="images" id="trainingImages">
+    <img src="images/training/red1.png" draggable="true" class="draggable">
+    <img src="images/training/red2.png" draggable="true" class="draggable">
+    <img src="images/training/blue1.png" draggable="true" class="draggable">
+    <img src="images/training/blue2.png" draggable="true" class="draggable">
+    <img src="images/training/other1.png" draggable="true" class="draggable">
+    <img src="images/training/other2.png" draggable="true" class="draggable">
+  </div>
+
+  <button onclick="trainModel()">✅ Train Model</button>
+
+  <h2>🔍 Test Your Model</h2>
+  <div class="images" id="testImages">
+    <img src="images/testing/test_red.png" onclick="classify(this)">
+    <img src="images/testing/test_blue.png" onclick="classify(this)">
+    <img src="images/testing/test_other.png" onclick="classify(this)">
+  </div>
+
+  <div id="results"></div>
+  <button onclick="resetGame()">🔄 Reset</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+let trainingData = {
+  red: [],
+  blue: [],
+  other: []
+};
+
+document.querySelectorAll('.draggable').forEach(img => {
+  img.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', e.target.src);
+  });
+});
+
+document.querySelectorAll('.bucket').forEach(bucket => {
+  bucket.addEventListener('dragover', e => e.preventDefault());
+  bucket.addEventListener('drop', e => {
+    e.preventDefault();
+    const src = e.dataTransfer.getData('text/plain');
+    const img = document.createElement('img');
+    img.src = src;
+    img.width = 100;
+    img.height = 100;
+    bucket.appendChild(img);
+  });
+});
+
+function trainModel() {
+  trainingData.red = getImagesFromBucket('redBucket');
+  trainingData.blue = getImagesFromBucket('blueBucket');
+  trainingData.other = getImagesFromBucket('otherBucket');
+  alert('Model trained! Now test it.');
+}
+
+function getImagesFromBucket(bucketId) {
+  const bucket = document.getElementById(bucketId);
+  return Array.from(bucket.getElementsByTagName('img')).map(img => img.src);
+}
+
+function classify(img) {
+  const color = getDominantColor(img.src);
+  let prediction = 'Other';
+  if (color === 'red') prediction = 'Red';
+  else if (color === 'blue') prediction = 'Blue';
+
+  document.getElementById('results').innerText =
+    `AI Prediction: ${prediction} T-shirt`;
+}
+
+function getDominantColor(src) {
+  if (src.includes('red')) return 'red';
+  if (src.includes('blue')) return 'blue';
+  return 'other';
+}
+
+function resetGame() {
+  ['redBucket', 'blueBucket', 'otherBucket'].forEach(id => {
+    document.getElementById(id).innerHTML = id.replace('Bucket', '') + ' T-shirts';
+  });
+  document.getElementById('results').innerText = '';
+}
+
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f0f8ff;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.bucket {
+  width: 150px;
+  height: 150px;
+  border: 2px dashed #333;
+  margin: 10px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.images {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+#results {
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #333;
+}
